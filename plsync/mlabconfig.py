@@ -216,13 +216,12 @@ def export_experiment_records_v4(output,
             # TODO: remove sitenames (or exclude mlab4's).
             sitename = experiment.sitename(node, decoration)
             recordname = experiment.recordname(node, decoration)
-
             if flatnames:
-                sitename = flatten_hostname(sitename)
-                recordname = flatten_hostname(recordname)
-
-            write_a_record(output, sitename, experiment.ipv4(node))
-            write_a_record(output, recordname, experiment.ipv4(node))
+                write_a_record(output, flatten_hostname(recordname),
+                               experiment.ipv4(node))
+            else:
+                write_a_record(output, sitename, experiment.ipv4(node))
+                write_a_record(output, recordname, experiment.ipv4(node))
 
 
 def export_experiment_records_v6(output,
@@ -240,13 +239,12 @@ def export_experiment_records_v6(output,
             if (node.ipv6_is_enabled() and experiment.ipv6(node)):
                 sitename = experiment.sitename(node, decoration)
                 recordname = experiment.recordname(node, decoration)
-
                 if flatnames:
-                    sitename = flatten_hostname(sitename)
-                    recordname = flatten_hostname(recordname)
-
-                write_aaaa_record(output, sitename, experiment.ipv6(node))
-                write_aaaa_record(output, recordname, experiment.ipv6(node))
+                    write_aaaa_record(output, flatten_hostname(recordname),
+                                      experiment.ipv6(node))
+                else:
+                    write_aaaa_record(output, sitename, experiment.ipv6(node))
+                    write_aaaa_record(output, recordname, experiment.ipv6(node))
 
 
 def export_mlab_zone_records(output, sites, experiments):

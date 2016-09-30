@@ -31,6 +31,11 @@ class MlabconfigTest(unittest.TestCase):
         for expected in expected_items:
             self.assertIn(expected, results)
 
+    def assertDoesNotContainsItems(self, results, unexpected_items):
+        """Asserts that every element of unexpected is NOT in results."""
+        for unexpected in unexpected_items:
+            self.assertNotIn(unexpected, results)
+
     def test_export_mlab_host_ips(self):
         # Setup synthetic user, site, and experiment configuration data.
         experiments = [model.Slice(name='abc_bar',
@@ -153,19 +158,20 @@ class MlabconfigTest(unittest.TestCase):
                                    use_initscript=True,
                                    ipv6='all')]
         expected_results = [
-            mlabconfig.format_a_record('foo-abc-abc01', '192.168.1.11'),
             mlabconfig.format_a_record('foo-abc-mlab2-abc01', '192.168.1.24'),
-            mlabconfig.format_a_record('foo-abcv4-abc01', '192.168.1.11'),
             mlabconfig.format_a_record('foo-abc-mlab2v4-abc01', '192.168.1.24'),
-            mlabconfig.format_aaaa_record('foo-abc-abc01',
-                                          '2400:1002:4008::11'),
-            mlabconfig.format_aaaa_record('foo-abc-abc01',
-                                          '2400:1002:4008::37'),
             mlabconfig.format_aaaa_record('foo-abc-mlab3-abc01',
                                           '2400:1002:4008::37'),
-            mlabconfig.format_aaaa_record('foo-abcv6-abc01',
-                                          '2400:1002:4008::11'),
             mlabconfig.format_aaaa_record('foo-abc-mlab1v6-abc01',
+                                          '2400:1002:4008::11'),
+        ]
+
+        unexpected_results = [
+            mlabconfig.format_a_record('foo-abc-abc01', '192.168.1.24'),
+            mlabconfig.format_a_record('foo-abcv4-abc01', '192.168.1.24'),
+            mlabconfig.format_aaaa_record('foo-abc-abc01',
+                                          '2400:1002:4008::37'),
+            mlabconfig.format_aaaa_record('foo-abcv6-abc01',
                                           '2400:1002:4008::11'),
         ]
 
@@ -174,6 +180,7 @@ class MlabconfigTest(unittest.TestCase):
 
         results = output.getvalue().split('\n')
         self.assertContainsItems(results, expected_results)
+        self.assertDoesNotContainsItems(results, unexpected_results)
 
     @mock.patch.object(mlabconfig, 'get_revision')
     def test_serial_rfc1912(self, mock_get_revision):
