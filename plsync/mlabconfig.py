@@ -130,7 +130,7 @@ def flatten_hostname(hostname):
     For example, convert 'ndt.iupui.mlab1.nuq1t' to 'ndt-iupui-mlab1-nuq1t'
 
     Args:
-      str, the dotted subdomain to flatten
+      hostname: str, the dotted subdomain to flatten
 
     Returns:
       str, the modified hostname
