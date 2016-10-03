@@ -179,6 +179,13 @@ class MlabconfigTest(unittest.TestCase):
         mlabconfig.export_experiment_records(output, self.sites, experiments)
 
         results = output.getvalue().split('\n')
+        # We are using custom functions here because of the size of the results
+        # list. The results list will contain 50+ items. Using the built-in
+        # assertItemsEqual() would require creating a very large, unwieldy
+        # expected_results list. Using the custom functions allows us to not
+        # have to verify the entirety of results, but simply assert that certain
+        # key items are in the results. This is likely sufficient because most
+        # of the items in results are redundant in form.
         self.assertContainsItems(results, expected_results)
         self.assertDoesNotContainsItems(results, unexpected_results)
 
