@@ -128,6 +128,8 @@ site_list = [
     makesite('mia04','173.205.3.128',  '2001:668:1f:1f::',     'Miami_FL', 'US', 25.783300, -80.266700, user_list, count=4, arch='x86_64', nodegroup='MeasurementLabCentos'),
     makesite('mia05','128.177.109.0',  '2001:438:fffd:29::',   'Miami_FL', 'US', 25.783300, -80.266700, user_list, count=4, arch='x86_64', nodegroup='MeasurementLabCentos'),
     makesite('mil01','213.200.99.192', '2001:668:1f:17::',     'Milan', 'IT', 45.464000, 9.191600, user_list, nodegroup='MeasurementLabCentos'),
+    makesite('mil02','80.239.222.0',   '2001:2030:30::',       'Milan', 'IT', 45.464000, 9.191600, user_list, count=4, arch='x86_64-r630', nodegroup='MeasurementLabCentos'),
+    makesite('mil03','77.67.115.0',    '2001:668:1f:62::',     'Milan', 'IT', 45.464000, 9.191600, user_list, count=4, arch='x86_64-r630', nodegroup='MeasurementLabCentos'),
     makesite('mnl01','202.90.156.0',   '2001:d18:0:35::',      'Manila', 'PH', 14.5086, 121.0194, user_list, count=4, arch='x86_64', nodegroup='MeasurementLabCentos'),
     makesite('nbo01','197.136.0.64',   '2c0f:fe08:10:64::',    'Nairobi', 'KE', -1.319170, 36.925800, user_list, nodegroup='MeasurementLabCentos'),
     makesite('nuq02','149.20.5.64',    '2001:4f8:1:1001::',    'San Francisco Bay Area_CA', 'US', 37.383300, -122.066700, user_list, nodegroup='MeasurementLabCentos'),
