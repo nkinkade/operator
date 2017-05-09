@@ -11,6 +11,7 @@ import ssl
 
 SESSION_DIR=os.environ['HOME'] + "/.ssh"
 SESSION_FILE=SESSION_DIR + "/query_mlab_session"
+SESSION_TIMEOUT=60*60*24*30 # 30 days
 API_URL = "https://boot.planet-lab.org/PLCAPI/"
 VERBOSE=False
 DEBUG=False
@@ -145,7 +146,7 @@ def parse_options():
 
     parser.set_defaults(
                         action="get",
-                        session_timeout=2592000, # 30 days (60*60*24*30)
+                        session_timeout=SESSION_TIMEOUT,
                         type='node',
                         filter=None,
                         fields=None,
