@@ -42,6 +42,13 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
         --label module=ssh_v4_online \
         --select="${!pattern}" > ${output}/blackbox-targets/ssh806.json
 
+    # snmp_exporter on port 9116
+    ./mlabconfig.py --format=prom-targets-sites \
+        --template_target=s1.{{sitename}}.measurement-lab.org:9116 \
+        --label service=snmpexporter \
+        --label module=switch_snmp_metrics > \
+        ${output}/blackbox-targets/snmpexporter.json
+
     # Sidestream exporter in the npad experiment.
     ./mlabconfig.py --format=prom-targets \
         --template_target={{hostname}}:9090 \
