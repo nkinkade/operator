@@ -7,7 +7,7 @@ BASEDIR=${PWD}
 
 # Create all output directories.
 for project in mlab-sandbox mlab-staging mlab-oti ; do
-  mkdir -p ${BASEDIR}/gen/${project}/prometheus/{legacy-targets,blackbox-targets}
+  mkdir -p ${BASEDIR}/gen/${project}/prometheus/{legacy-targets,blackbox-targets,snmp-targets}
 done
 
 # All testing sites and machines.
@@ -46,7 +46,7 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
     ./mlabconfig.py --format=prom-targets-sites \
         --template_target=s1.{{sitename}}.measurement-lab.org:9116 \
         --label service=snmp_exporter > \
-        ${output}/blackbox-targets/snmpexporter.json
+        ${output}/snmp-targets/snmpexporter.json
 
     # Sidestream exporter in the npad experiment.
     ./mlabconfig.py --format=prom-targets \

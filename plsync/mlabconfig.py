@@ -712,7 +712,7 @@ def select_prometheus_site_targets(sites, select_regex, target_template,
         if select_regex and not re.search(select_regex, site['name']):
             continue
         labels = common_labels.copy()
-        labels['module'] = site['name']
+        labels['site'] = site['name']
         target = target_tmpl.safe_substitute({'sitename': site['name']})
         records.append({
             'labels': labels,
