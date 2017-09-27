@@ -588,7 +588,7 @@ class MlabconfigTest(unittest.TestCase):
         expected_targets = [
             {
                 'labels': {
-                    'module': 'abc01'
+                    'site': 'abc01'
                 },
                 'targets': [
                     's1.abc01.measurement-lab.org:9116'
