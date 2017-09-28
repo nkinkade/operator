@@ -133,7 +133,8 @@ EXAMPLES:
 
     mlabconfig.py --format=prom-targets-sites \
         --template_target=s1.{{sitename}}.measurement-lab.org:9116 \
-        --label service=snmp_exporter
+        --label service=snmp \
+        --label __exporter-project=sandbox
 """
 
 
