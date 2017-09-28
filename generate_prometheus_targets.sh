@@ -46,7 +46,7 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
     ./mlabconfig.py --format=prom-targets-sites \
         --template_target=s1.{{sitename}}.measurement-lab.org:9116 \
         --label service=snmp \
-        --label __exporter-project=${project#mlab-} > \
+        --label __exporter_project=${project#mlab-} > \
         ${output}/snmp-targets/snmpexporter.json
 
     # Sidestream exporter in the npad experiment.
