@@ -1,6 +1,6 @@
 mlab1.bru01.measurement-lab.org
 mlab1.fra01.measurement-lab.org
-mlab1.lax04.measurement-lab.org
+mlab1.lax01.measurement-lab.org
 mlab1.lga03.measurement-lab.org
 mlab1.lhr05.measurement-lab.org
 mlab1.mia02.measurement-lab.org
