@@ -42,21 +42,21 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
         --label module=ssh_v4_online \
         --select="${!pattern}" > ${output}/blackbox-targets/ssh806.json
 
-    # NDT on port 3001.
+    # NDT "raw" on port 3001.
     ./mlabconfig.py --format=prom-targets \
         --template_target={{hostname}}:3001 \
-        --label service=ndt3001 \
+        --label service=ndt_raw \
         --label module=tcp_v4_online \
         --select="ndt.iupui.(${!pattern})" > \
-            ${output}/blackbox-targets/ndt3001.json
+            ${output}/blackbox-targets/ndt_raw.json
 
     # NDT SSL on port 3010.
     ./mlabconfig.py --format=prom-targets \
         --template_target={{hostname}}:3010 \
-        --label service=ndt3010 \
+        --label service=ndt_ssl \
         --label module=tcp_v4_tls_online \
         --select="ndt.iupui.(${!pattern})" > \
-            ${output}/blackbox-targets/ndt3010.json
+            ${output}/blackbox-targets/ndt_ssl.json
 
     # Mobiperf on ports 6001, 6002, 6003.
     ./mlabconfig.py --format=prom-targets \
