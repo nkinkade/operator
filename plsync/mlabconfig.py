@@ -224,7 +224,7 @@ def parse_flags():
         '--rsync',
         dest='rsync',
         action='store_true',
-        default=True,
+        default=False,
         help='Only process experiments that have rsync modules defined.')
     parser.add_option(
         '',
