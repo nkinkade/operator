@@ -68,6 +68,14 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
         --select="1.michigan.(${!pattern})" > \
             ${output}/blackbox-targets/mobiperf.json
 
+    # neubot on port 9773.
+    ./mlabconfig.py --format=prom-targets \
+        --template_target={{hostname}}:9773/sapi/state \
+        --label service=neubot \
+        --label module=neubot_online \
+        --select="neubot.mlab.(${!pattern})" > \
+            ${output}/blackbox-targets/neubot.json
+
     # snmp_exporter on port 9116.
     ./mlabconfig.py --format=prom-targets-sites \
         --template_target=s1.{{sitename}}.measurement-lab.org \
