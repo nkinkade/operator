@@ -42,6 +42,22 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
         --label module=ssh_v4_online \
         --select="${!pattern}" > ${output}/blackbox-targets/ssh806.json
 
+    # NDT on port 3001.
+    ./mlabconfig.py --format=prom-targets \
+        --template_target={{hostname}}:3001 \
+        --label service=ndt3001 \
+        --label module=tcp_v4_online \
+        --select="ndt.iupui.(${!pattern})" > \
+            ${output}/blackbox-targets/ndt3001.json
+
+    # NDT SSL on port 3010.
+    ./mlabconfig.py --format=prom-targets \
+        --template_target={{hostname}}:3010 \
+        --label service=ndt3010 \
+        --label module=tcp_v4_tls_online \
+        --select="ndt.iupui.(${!pattern})" > \
+            ${output}/blackbox-targets/ndt3010.json
+
     # snmp_exporter on port 9116.
     ./mlabconfig.py --format=prom-targets-sites \
         --template_target=s1.{{sitename}}.measurement-lab.org \
