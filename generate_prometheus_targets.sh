@@ -58,6 +58,16 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
         --select="ndt.iupui.(${!pattern})" > \
             ${output}/blackbox-targets/ndt3010.json
 
+    # Mobiperf on ports 6001, 6002, 6003.
+    ./mlabconfig.py --format=prom-targets \
+        --template_target={{hostname}}:6001 \
+        --template_target={{hostname}}:6002 \
+        --template_target={{hostname}}:6003 \
+        --label service=mobiperf \
+        --label module=tcp_v4_online \
+        --select="1.michigan.(${!pattern})" > \
+            ${output}/blackbox-targets/mobiperf.json
+
     # snmp_exporter on port 9116.
     ./mlabconfig.py --format=prom-targets-sites \
         --template_target=s1.{{sitename}}.measurement-lab.org \
