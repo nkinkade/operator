@@ -229,8 +229,8 @@ def parse_flags():
         help='Only process experiments that have rsync modules defined.')
     parser.add_option(
         '',
-        '--flatnames',
-        dest='flatnames',
+        '--use_flatnames',
+        dest='use_flatnames',
         action='store_true',
         default=False,
         help='Whether to return TLS-formatted host names (dashes, not dots.)')
@@ -652,7 +652,7 @@ def export_scraper_kubernetes_config(filename_template, experiments,
 
 def select_prometheus_experiment_targets(experiments, select_regex,
                                          target_templates, common_labels,
-                                         rsync_only, flatnames):
+                                         rsync_only, use_flatnames):
     """Selects and formats targets from experiments.
 
     Args:
@@ -663,7 +663,7 @@ def select_prometheus_experiment_targets(experiments, select_regex,
           hostname. e.g. {{hostname}}:7999, https://{{hostname}}/some/path
       common_labels: dict of str, a set of labels to apply to all targets.
       rsync_only: bool, skip experiments without rsync_modules.
-      flatnames: bool, return "flattened" hostnames suitable for TLS/SSL
+      use_flatnames: bool, return "flattened" hostnames suitable for TLS/SSL
           wildcard certificates.
 
     Returns:
@@ -685,7 +685,7 @@ def select_prometheus_experiment_targets(experiments, select_regex,
             # Don't use the flatten_hostname() function in this module because
             # it adds too much overhead. Just replace the first three dots with
             # dashes.
-            if flatnames:
+            if use_flatnames:
                 host = host.replace('.', '-', 3)
             # Consider all experiments or only those with rsync modules.
             if not rsync_only or experiment['rsync_modules']:
@@ -814,7 +814,7 @@ def main():
         # TODO(soltesz): support v4 only or v6 only options.
         records = select_prometheus_experiment_targets(
             experiments, options.select, options.template_target,
-            options.labels, options.rsync, options.flatnames)
+            options.labels, options.rsync, options.use_flatnames)
         json.dump(records, sys.stdout, indent=4)
 
     elif options.format == 'prom-targets-nodes':
