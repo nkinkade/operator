@@ -88,9 +88,9 @@ mlab4s_only = ['mlab4.nuq01', 'mlab4.nuq02', 'mlab4.prg01',
 #         given. For example, see lca01+npad.
 slice_list = [
 
-    Slice(name='iupui_ndt',       index=1, attrs=centos_slice_attrs+[
+    Slice(name='iupui_ndt',       index=1, attrs=centos_slice_attrs+web100_enable_attr+[
                                                 Attr('MeasurementLabCentos',    disk_max='100000000'),  # 100GB.
-                                                Attr('MeasurementLabCentos', capabilities='CAP_NET_BIND_SERVICE,vxc_^28'), ], 
+                                                Attr('MeasurementLabCentos', capabilities='CAP_NET_BIND_SERVICE'), ],
                                            users=user_list,
                                            use_initscript=True,
                                            ipv6=['mlab1.lax01', 'mlab1.mia03', 'mlab1.ham01', 'mlab1.hnd01',
@@ -105,7 +105,7 @@ slice_list = [
                                            use_initscript=True,
                                            ipv6="all",
                                            rsync_modules=['sidestream', 'npad', 'paris-traceroute']),
-    Slice(name="mlab_diff",       index=4, attrs=centos_slice_attrs+[
+    Slice(name="mlab_diff",       index=4, attrs=centos_slice_attrs+web100_enable_attr+[
                                                 Attr('MeasurementLabCentos',    disk_max='100000000'),  # 100GB.
                                                 Attr('MeasurementLabCentos', capabilities='CAP_NET_BIND_SERVICE, CAP_NET_RAW'), ],
                                            users=user_list,
@@ -123,12 +123,12 @@ slice_list = [
     Slice(name="samknows_ispmon", index=7, attrs=centos_slice_attrs+web100_enable_attr,
                                            users=user_list,
                                            ipv6="all"),
-    Slice(name="gt_bismark",      index=8, attrs=centos_slice_attrs+[
-                                                Attr('MeasurementLabCentos', capabilities='CAP_NET_BIND_SERVICE,vxc_^28'), ], 
+    Slice(name="gt_bismark",      index=8, attrs=centos_slice_attrs+web100_enable_attr+[
+                                                Attr('MeasurementLabCentos', capabilities='CAP_NET_BIND_SERVICE'), ],
                                            users=user_list,
                                            ipv6=mlab4s_only),
-    Slice(name="mlab_neubot",     index=9, attrs=centos_slice_attrs+[
-                                                Attr('MeasurementLabCentos', capabilities='CAP_NET_BIND_SERVICE,vxc_^28'), ], 
+    Slice(name="mlab_neubot",     index=9, attrs=centos_slice_attrs+web100_enable_attr+[
+                                                Attr('MeasurementLabCentos', capabilities='CAP_NET_BIND_SERVICE'), ],
                                            users=user_list,
                                            use_initscript=True,
                                            ipv6="all",
@@ -138,8 +138,8 @@ slice_list = [
                                            use_initscript=True,
                                            ipv6="all"),
 
-    Slice(name='mlab_utility',    index=11, attrs=centos_slice_attrs+[
-                                                Attr('MeasurementLabCentos', capabilities='CAP_NET_BIND_SERVICE,vxc_^28'), 
+    Slice(name='mlab_utility',    index=11, attrs=centos_slice_attrs+web100_enable_attr+[
+                                                Attr('MeasurementLabCentos', capabilities='CAP_NET_BIND_SERVICE'), 
                                                 Attr(None, vsys='vs_resource_backend') ],
                                             users=user_list,
                                             use_initscript=True,
