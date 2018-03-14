@@ -39,12 +39,19 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --rsync \
           --select "${!pattern}" > ${output}/blackbox-targets/rsyncd.json
 
-      # SSH on port 806.
+      # SSH on port 806 over IPv4
       ./mlabconfig.py --format=prom-targets-nodes \
           --template_target={{hostname}}:806 \
           --label service=ssh806 \
           --label module=ssh_v4_online \
           --select "${!pattern}" > ${output}/blackbox-targets/ssh806.json
+
+      # SSH on port 806 over IPv6
+      ./mlabconfig.py --format=prom-targets-nodes \
+          --template_target={{hostname}}:806 \
+          --label service=ssh806 \
+          --label module=ssh_v6_online \
+          --select "${!pattern}" > ${output}/blackbox-targets/ssh806_ipv6.json
 
       # Sidestream exporter in the npad experiment.
       ./mlabconfig.py --format=prom-targets \
