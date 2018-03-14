@@ -92,7 +92,7 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --select "ndt.iupui.(${!pattern})" > \
               ${output}/script-targets/ndt_queue.json
 
-      # Mobiperf on ports 6001, 6002, 6003.
+      # Mobiperf on ports 6001, 6002, 6003 over IPv4.
       ./mlabconfig.py --format=prom-targets \
           --template_target={{hostname}}:6001 \
           --template_target={{hostname}}:6002 \
@@ -102,13 +102,32 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --select "1.michigan.(${!pattern})" > \
               ${output}/blackbox-targets/mobiperf.json
 
-      # neubot on port 9773.
+      # Mobiperf on ports 6001, 6002, 6003 over IPv6.
+      ./mlabconfig.py --format=prom-targets \
+          --template_target={{hostname}}:6001 \
+          --template_target={{hostname}}:6002 \
+          --template_target={{hostname}}:6003 \
+          --label service=mobiperf_ipv6 \
+          --label module=tcp_v6_online \
+          --select "1.michigan.(${!pattern})" > \
+              ${output}/blackbox-targets/mobiperf_ipv6.json
+
+
+      # neubot on port 9773 over IPv4.
       ./mlabconfig.py --format=prom-targets \
           --template_target={{hostname}}:9773/sapi/state \
           --label service=neubot \
-          --label module=neubot_online \
+          --label module=neubot_online_v4 \
           --select "neubot.mlab.(${!pattern})" > \
               ${output}/blackbox-targets/neubot.json
+
+      # neubot on port 9773 over IPv6.
+      ./mlabconfig.py --format=prom-targets \
+          --template_target={{hostname}}:9773/sapi/state \
+          --label service=neubot_ipv6 \
+          --label module=neubot_online_v6 \
+          --select "neubot.mlab.(${!pattern})" > \
+              ${output}/blackbox-targets/neubot_ipv6.json
 
       # snmp_exporter on port 9116.
       ./mlabconfig.py --format=prom-targets-sites \
