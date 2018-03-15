@@ -660,7 +660,7 @@ def export_scraper_kubernetes_config(filename_template, experiments,
 def select_prometheus_experiment_targets(experiments, select_regex,
                                          target_templates, common_labels,
                                          rsync_only, use_flatnames,
-                                         decoration, domain):
+                                         decoration):
     """Selects and formats targets from experiments.
 
     Args:
@@ -675,7 +675,6 @@ def select_prometheus_experiment_targets(experiments, select_regex,
           wildcard certificates.
       decoration: str, return protocol 'decorated' host names
           (e.g., mlab1v6.abc01).
-      domain: str, the default domain for all DNS host names.
 
     Returns:
       list of dict, each element is a dict with 'labels' (a dict of key/values)
@@ -695,8 +694,7 @@ def select_prometheus_experiment_targets(experiments, select_regex,
             # "Decorated" domain names specify the protocol (v4 or v6) in the
             # name (e.g., mlab1v4.abc01, mlab2v6.lol02).
             if decoration:
-                host = '%s.%s' % (experiment.recordname(node, decoration),
-                                  domain)
+                host = experiment.hostname(node, decoration)
             else:
                 host = experiment.hostname(node)
 
@@ -722,7 +720,7 @@ def select_prometheus_experiment_targets(experiments, select_regex,
 
 
 def select_prometheus_node_targets(sites, select_regex, target_templates,
-                                   common_labels, decoration, domain):
+                                   common_labels, decoration):
     """Selects and formats targets from site nodes.
 
     Args:
@@ -734,7 +732,6 @@ def select_prometheus_node_targets(sites, select_regex, target_templates,
       common_labels: dict of str, a set of labels to apply to all targets.
       decoration: str, used to "decorate" the hostname with a protocol
           (e.g., mlab1v6.abc01).
-      domain: str, the default domain for all DNS host names.
 
     Returns:
       list of dict, each element is a dict with 'labels' (a dict of key/values)
@@ -752,7 +749,7 @@ def select_prometheus_node_targets(sites, select_regex, target_templates,
             # "Decorated" domain names specify the protocol (v4 or v6) in the
             # name (e.g., mlab1v4.abc01, mlab2v6.lol02).
             if decoration:
-                host = '%s.%s' % (node.recordname(decoration), domain)
+                host = node.hostname(decoration)
             else:
                 host = node.hostname()
 
@@ -843,13 +840,13 @@ def main():
         records = select_prometheus_experiment_targets(
             experiments, options.select, options.template_target,
             options.labels, options.rsync, options.use_flatnames,
-            options.decoration, options.domain)
+            options.decoration)
         json.dump(records, sys.stdout, indent=4)
 
     elif options.format == 'prom-targets-nodes':
         records = select_prometheus_node_targets(
             sites, options.select, options.template_target, options.labels,
-            options.decoration, options.domain)
+            options.decoration)
         json.dump(records, sys.stdout, indent=4)
 
     elif options.format == 'prom-targets-sites':
