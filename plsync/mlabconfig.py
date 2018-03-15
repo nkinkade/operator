@@ -238,8 +238,8 @@ def parse_flags():
         '',
         '--decoration',
         dest='decoration',
-        default=None,
-        choices=[None, 'v4', 'v6'],
+        default='',
+        choices=['', 'v4', 'v6'],
         help='Protocol decoration for Prom targets (e.g, mlab1v4.abc01).')
     parser.add_option(
         '',
@@ -691,12 +691,7 @@ def select_prometheus_experiment_targets(experiments, select_regex,
             labels['experiment'] = experiment.dnsname()
             labels['machine'] = node.hostname()
 
-            # "Decorated" domain names specify the protocol (v4 or v6) in the
-            # name (e.g., mlab1v4.abc01, mlab2v6.lol02).
-            if decoration:
-                host = experiment.hostname(node, decoration)
-            else:
-                host = experiment.hostname(node)
+            host = experiment.hostname(node, decoration)
 
             # Don't use the flatten_hostname() function in this module because
             # it adds too much overhead. Just replace the first three dots with
@@ -746,12 +741,7 @@ def select_prometheus_node_targets(sites, select_regex, target_templates,
             labels['machine'] = node.hostname()
             targets = []
 
-            # "Decorated" domain names specify the protocol (v4 or v6) in the
-            # name (e.g., mlab1v4.abc01, mlab2v6.lol02).
-            if decoration:
-                host = node.hostname(decoration)
-            else:
-                host = node.hostname()
+            host = node.hostname(decoration)
 
             for tmpl in target_templates:
                 target_tmpl = BracketTemplate(tmpl)
