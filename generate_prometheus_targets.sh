@@ -63,7 +63,7 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --template_target={{hostname}}:806 \
           --label service=ssh806 \
           --label module=ssh_v6_online \
-          --label _blackbox_port=${!bbe_port} \
+          --label __blackbox_port=${!bbe_port} \
           --select "${!pattern}" \
           --decoration "v6" > ${output}/blackbox-targets/ssh806_ipv6.json
 
@@ -130,7 +130,7 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --template_target={{hostname}}:6003 \
           --label service=mobiperf_ipv6 \
           --label module=tcp_v6_online \
-          --label _blackbox_port=${!bbe_port} \
+          --label __blackbox_port=${!bbe_port} \
           --select "1.michigan.(${!pattern})" \
           --decoration "v6" > ${output}/blackbox-targets/mobiperf_ipv6.json
 
@@ -147,7 +147,7 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --template_target={{hostname}}:9773/sapi/state \
           --label service=neubot_ipv6 \
           --label module=neubot_online_v6 \
-          --label _blackbox_port=${!bbe_port} \
+          --label __blackbox_port=${!bbe_port} \
           --select "neubot.mlab.(${!pattern})" \
           --decoration "v6" > ${output}/blackbox-targets/neubot_ipv6.json
 
