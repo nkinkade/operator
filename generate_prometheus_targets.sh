@@ -51,7 +51,8 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --template_target={{hostname}}:806 \
           --label service=ssh806 \
           --label module=ssh_v6_online \
-          --select "${!pattern}" > ${output}/blackbox-targets/ssh806_ipv6.json
+          --select "${!pattern}" \
+          --decoration "v6" > ${output}/blackbox-targets/ssh806_ipv6.json
 
       # Sidestream exporter in the npad experiment.
       ./mlabconfig.py --format=prom-targets \
@@ -116,8 +117,8 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --template_target={{hostname}}:6003 \
           --label service=mobiperf_ipv6 \
           --label module=tcp_v6_online \
-          --select "1.michigan.(${!pattern})" > \
-              ${output}/blackbox-targets/mobiperf_ipv6.json
+          --select "1.michigan.(${!pattern})" \
+          --decoration "v6" > ${output}/blackbox-targets/mobiperf_ipv6.json
 
 
       # neubot on port 9773 over IPv4.
@@ -133,8 +134,8 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --template_target={{hostname}}:9773/sapi/state \
           --label service=neubot_ipv6 \
           --label module=neubot_online_v6 \
-          --select "neubot.mlab.(${!pattern})" > \
-              ${output}/blackbox-targets/neubot_ipv6.json
+          --select "neubot.mlab.(${!pattern})" \
+          --decoration "v6" > ${output}/blackbox-targets/neubot_ipv6.json
 
       # snmp_exporter on port 9116.
       ./mlabconfig.py --format=prom-targets-sites \
