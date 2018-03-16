@@ -22,6 +22,14 @@ SELECT_mlab_staging=$( cat ${SCRIPTDIR}/plsync/staging_patterns.txt ${SCRIPTDIR}
 # All sites *excluding* test sites.
 SELECT_mlab_oti=$( cat ${SCRIPTDIR}/plsync/production_patterns.txt | xargs | sed -e 's/ /|/g' )
 
+# GCP doesn't support IPv6, so we have a Linode VM running three instances of
+# the blackbox_exporter, on three separate ports... one port/instance for each
+# project. These variables map projects to ports, and will be transmitted to
+# Prometheus in the form of a new label that will be rewritten.
+BBE_IPV6_PORT_mlab_oti="9115"
+BBE_IPV6_PORT_mlab_staging="8115"
+BBE_IPV6_PORT_mlab_sandbox="7115"
+
 
 for project in mlab-sandbox mlab-staging mlab-oti ; do
   pushd ${SCRIPTDIR}/plsync
@@ -29,6 +37,10 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
 
     # Construct the per-project SELECT variable name to use below.
     pattern=SELECT_${project/-/_}
+
+    # Construct the per-project blackbox_exporter port variable to use below.
+    # blackbox_exporter on for IPv6 targets.
+    bbe_port=BBE_IPV6_PORT_${project/-/_}
 
     if [[ ${GROUP} == scraper ]] ; then
       # Rsyncd on port 7999.
@@ -51,6 +63,7 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --template_target={{hostname}}:806 \
           --label service=ssh806 \
           --label module=ssh_v6_online \
+          --label _blackbox_port=${!bbe_port} \
           --select "${!pattern}" \
           --decoration "v6" > ${output}/blackbox-targets/ssh806_ipv6.json
 
@@ -117,9 +130,9 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --template_target={{hostname}}:6003 \
           --label service=mobiperf_ipv6 \
           --label module=tcp_v6_online \
+          --label _blackbox_port=${!bbe_port} \
           --select "1.michigan.(${!pattern})" \
           --decoration "v6" > ${output}/blackbox-targets/mobiperf_ipv6.json
-
 
       # neubot on port 9773 over IPv4.
       ./mlabconfig.py --format=prom-targets \
@@ -134,6 +147,7 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --template_target={{hostname}}:9773/sapi/state \
           --label service=neubot_ipv6 \
           --label module=neubot_online_v6 \
+          --label _blackbox_port=${!bbe_port} \
           --select "neubot.mlab.(${!pattern})" \
           --decoration "v6" > ${output}/blackbox-targets/neubot_ipv6.json
 
