@@ -193,6 +193,12 @@ for project in mlab-sandbox mlab-staging mlab-oti ; do
           --select "${!pattern}" > \
               ${output}/legacy-targets/nodeexporter.json
 
+      # ICMP probe for platform switches
+      ./mlabconfig.py --format=prom-targets-sites \
+          --template_target=s1.{{sitename}}.measurement-lab.org \
+          --label module=icmp > \
+              ${output}/blackbox-targets/switches_ping.json
+
     else
       echo "Unknown group name: ${GROUP} for ${project}"
     fi
